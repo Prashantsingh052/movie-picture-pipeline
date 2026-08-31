@@ -1,0 +1,25 @@
+name: Frontend Continuous Deployment
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "starter/frontend/**"
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy Frontend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build frontend Docker image
+        working-directory: starter/frontend
+        run: docker build -t movie-picture-frontend .
+
+      - name: Verify Docker image
+        run: docker images movie-picture-frontend
